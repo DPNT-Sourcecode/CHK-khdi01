@@ -46,9 +46,18 @@ def checkout(skus):
     return total
 
 def test():
-    checkout("A1B2C3D4")
-    assert checkout("A1B2C3D4") == 200
+    assert checkout("A1B2C3D4") == 215
+    assert checkout("A1B3C3D4") == 245
+    assert checkout("A1B1C1D1") == 115
+    assert checkout("A1") == 50
+    assert checkout("A3") == 130
+    assert checkout("") == 0
+    assert (checkout("1A")) == -1
+    assert ("A1BB1C1D1") == -1
+    assert ("A1B1C1D") == -1
 
-print(checkout("A1B2C3D4"))
+
+
+test()
 
 
