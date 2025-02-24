@@ -4,6 +4,7 @@
 # skus = unicode string
 def checkout(skus):
     from collections import defaultdict
+
     prices = {"A": 50, "B":30, "C":20, "D":15}
     offers = {"A": (3, 130), "B": (2,45)}
 
@@ -25,17 +26,6 @@ def checkout(skus):
         else:
             return -1
     
-    #item_list.append(i)
-
-    #items = item_list[::2]
-    #quantities = item_list[1::2]
-
-    #all_quantites_are_numbers_check = [i.isnumeric() for i in quantities]
-
-
-    #if (len(items) != len(quantities)) or False in all_quantites_are_numbers_check:
-    #    return -1
-
     total = 0
 
     for item, n in cart_dict.items():
