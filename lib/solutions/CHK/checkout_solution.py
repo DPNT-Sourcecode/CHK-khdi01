@@ -39,7 +39,7 @@ def checkout(skus):
 
     for item, n in zip(items,[int(i) for i in quantities]):
         if item in offers.keys():
-            total += (n // offers[item][0] * offers[item][1]) + (n % offers[item][0] * prices[item])
+            total += ((n // offers[item][0] * offers[item][1])) + ((n % offers[item][0]) * prices[item])
         else:
             total += (n * prices[item])
 
@@ -50,4 +50,5 @@ def test():
     assert checkout("A1B2C3D4") == 200
 
 print(checkout("A1B2C3D4"))
+
 
