@@ -23,6 +23,7 @@ def checkout(skus):
         if i in prices.keys():
             cart_dict[i] += 1
         else:
+            print(i)
             return -1
     
     #item_list.append(i)
@@ -59,3 +60,4 @@ def test():
     assert checkout("A1B1C1D") == -1
 
 test()
+print(checkout("ABCa"))
