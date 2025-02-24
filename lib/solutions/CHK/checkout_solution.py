@@ -3,12 +3,13 @@
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
+    from collections import defaultdict
     prices = {"A": 50, "B":30, "C":20, "D":15}
     offers = {"A": (3, 130), "B": (2,45)}
 
     if skus == "":
         return 0
-    if skus[0].isnumeric():
+    if not skus.isalpha():
         return -1
 
     if len(skus) == 1:
@@ -17,32 +18,27 @@ def checkout(skus):
         else:
             return -1
 
-    current_number = ""
-
-    item_list = []
+    cart_dict = defaultdict(int)
     for i in skus.upper():
         if i in prices.keys():
-            if current_number != "":
-                item_list.append(current_number)
-                current_number = ""
-            item_list.append(i)
+            cart_dict[i] += 1
         else:
-            current_number += i
+            return -1
     
-    item_list.append(i)
+    #item_list.append(i)
 
-    items = item_list[::2]
-    quantities = item_list[1::2]
+    #items = item_list[::2]
+    #quantities = item_list[1::2]
 
-    all_quantites_are_numbers_check = [i.isnumeric() for i in quantities]
+    #all_quantites_are_numbers_check = [i.isnumeric() for i in quantities]
 
 
-    if (len(items) != len(quantities)) or False in all_quantites_are_numbers_check:
-        return -1
+    #if (len(items) != len(quantities)) or False in all_quantites_are_numbers_check:
+    #    return -1
 
     total = 0
 
-    for item, n in zip(items,[int(i) for i in quantities]):
+    for item, n in cart_dict.items():
         if item in offers.keys():
             total += ((n // offers[item][0] * offers[item][1])) + ((n % offers[item][0]) * prices[item])
         else:
@@ -51,17 +47,15 @@ def checkout(skus):
     return total
 
 def test():
-    assert checkout("A1B2C3D4") == 215
-    assert checkout("A1B3C3D4") == 245
-    assert checkout("A1B1C1D1") == 115
-    assert checkout("A1") == 50
-    assert checkout("A3") == 130
-    assert checkout("") == -1
-    assert (checkout("1A")) == -1
+    assert checkout("ABBCCCDDDD") == 215
+    assert checkout("ABBBCCCDDDD") == 245
+    assert checkout("ABCD") == 115
+    assert checkout("A") == 50
+    assert checkout("AAA") == 130
+    assert checkout("") == 0
+    assert (checkout("1")) == -1
     assert checkout("A1BB1C1D1") == -1
     assert checkout("A1BB1CC1D1") == -1
     assert checkout("A1B1C1D") == -1
 
-
-
-
+test()
