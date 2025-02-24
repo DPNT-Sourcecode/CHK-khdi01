@@ -25,9 +25,9 @@ def checkout(skus):
     items = item_list[::2]
     quantities = item_list[1::2]
 
-    all_quantites_are_numbers_check = [i.isnumeric() for i in quantites]
+    all_quantites_are_numbers_check = [i.isnumeric() for i in quantities]
 
-    if (len(items) != len(quantites)) or False in all_quantites_are_numbers_check:
+    if (len(items) != len(quantities)) or False in all_quantites_are_numbers_check:
         return -1
 
     total = 0
@@ -38,5 +38,12 @@ def checkout(skus):
         else:
             total += (n * prices[item])
 
+    print(total)
     return total
+
+def test():
+    checkout("A1B2C3D4")
+    assert checkout("A1B2C3D4") == 200
+
+test()
 
