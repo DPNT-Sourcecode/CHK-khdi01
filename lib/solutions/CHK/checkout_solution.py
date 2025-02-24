@@ -7,9 +7,15 @@ def checkout(skus):
     offers = {"A": (3, 130), "B": (2,45)}
 
     if skus == "":
-        return -1
+        return 0
     if skus[0].isnumeric():
         return -1
+
+    if len(skus) == 1:
+        if skus in prices.keys():
+            return prices[skus]
+        else:
+            return -1
 
     current_number = ""
 
@@ -55,6 +61,7 @@ def test():
     assert checkout("A1BB1C1D1") == -1
     assert checkout("A1BB1CC1D1") == -1
     assert checkout("A1B1C1D") == -1
+
 
 
 
