@@ -22,6 +22,9 @@ def checkout(skus):
             "H": [(5, 45), (10, 80)], "K": [(2, 150)], "N": [(3, "M")], "P":[(5, 200)],
             "Q":[(3,80)], "R": [(3, "Q")], "U":[(4, "U")], "V":[(2,90),(3,130)]}
 
+    group_discount_items = ["S", "T", "X", "Y", "Z"]
+    group_discount = (3,45)
+
     if skus == "":
         return 0
     if not skus.isalpha():
@@ -45,6 +48,35 @@ def checkout(skus):
 
     
     total = 0
+    group_items = {}
+    for item in group_discount_items:
+        if item in cart_dict and cart_dict[item] > 0:
+            group_items[item] = (cart_dict[item], prices[item])
+
+            del cart_dict[item]
+    
+    if group_items != {}:
+
+        group_item_list = []
+        for item, (count, price) in group_items.items():
+            group_item_list.extend([item] * count)
+
+        group_item_list.sort(key=lambda x: prices[x], reverse=True)
+
+        group_quantity, group_price = group_discount
+
+        num_groups = len(group_item_list) // group_quantity
+
+        if num_groups > 0:
+            total += num_groups * group_price
+
+        remaining = group_item_list[num_groups * group_quantity:]
+
+        for item in group_items.keys():
+            remaining_count = group_items[item] - remaining.count(item)
+            total += remaining_count * prices[item]
+
+
 
     for item, n in cart_dict.items():
         item_total = 0
@@ -101,9 +133,9 @@ def test():
     assert checkout("HHHHHHHH") == 75
     assert checkout("HHHHHHHHH") == 85
 
-    assert checkout("K") == 80
-    assert checkout("KK") == 150
-    assert checkout("KKK") == 230
+    assert checkout("K") == 70
+    assert checkout("KK") == 120
+    assert checkout("KKK") == 190
 
     assert checkout("NNNM") == 120
     assert checkout("NNM") == 95
@@ -126,6 +158,12 @@ def test():
     assert checkout("VVVVV") == 220
     assert checkout("VVVVVV") == 260
 
+
+    assert checkout("STX") == 45
+    assert checkout("STXY") == 65
+    assert checkout("ZZZ") ==45
+
+
     print("Tests Passed")
 
-#test()
+test()
