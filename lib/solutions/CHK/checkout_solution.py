@@ -71,9 +71,11 @@ def checkout(skus):
             total += num_groups * group_price
 
         remaining = group_item_list[num_groups * group_quantity:]
+        print(remaining)
 
         for item in group_items.keys():
             remaining_count = remaining.count(item)
+            print(remaining_count)
             total += remaining_count * prices[item]
 
 
@@ -160,7 +162,7 @@ def test():
 
 
     assert checkout("STX") == 45
-    assert checkout("STXY") == 65
+    assert checkout("STXY") == 62
     assert checkout("ZZZ") ==45
 
 
