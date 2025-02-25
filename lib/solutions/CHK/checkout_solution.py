@@ -1,12 +1,18 @@
 
-
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
     from collections import defaultdict
 
-    prices = {"A": 50, "B":30, "C":20, "D":15, "E":40, "F":10}
-    offers = {"A": [(3, 130), (5,200)], "B": [(2,45)], "E": [(2, "B")], "F": [(3, "F")]}
+    #prices = {"A": 50, "B":30, "C":20, "D":15, "E":40, "F":10}
+
+    prices = {"A": 50, "B": 30, "C": 20, "D": 15, "E": 40, "F": 10, "G": 20, "H": 10, "I": 35,
+ "J": 60, "K": 80, "L": 90, "M": 15, "N": 40, "O": 10, "P": 50, "Q": 30, "R": 50,
+ "S": 30, "T": 20, "U": 40, "V": 50, "W": 20, "X": 90, "Y": 10, "Z": 50}
+
+    offers = {"A": [(3, 130), (5,200)], "B": [(2,45)], "E": [(2, "B")], "F": [(3, "F")],
+            "H": [(5, 45), (10, 80)], "K": [(2, 150)], "N": [(3, "M")], "P":[(5, 200)],
+            "Q":[(3,80)], "R": [(3, "Q")], "U":[(4, "U")], "V":[(2,90),(3,130)]}
 
     if skus == "":
         return 0
@@ -73,7 +79,7 @@ def test():
     assert checkout("A") == 50
     assert checkout("AAA") == 130
     assert checkout("") == 0
-    assert (checkout("1")) == -1
+    assert checkout("1") == -1
     assert checkout("A1BB1C1D1") == -1
     assert checkout("A1BB1CC1D1") == -1
     assert checkout("A1B1C1D") == -1
@@ -88,6 +94,37 @@ def test():
     assert checkout("FFF") == 20
     assert checkout("FFFFF") == 40
     assert checkout("EEBFFFFFF") == 120
+
+    assert checkout("HHHHH") == 45
+    assert checkout("HHHHHHHHHH") == 80
+    assert checkout("HHH") == 30
+    assert checkout("HHHHHHHH") == 75
+    assert checkout("HHHHHHHHH") == 85
+
+    assert checkout("K") == 80
+    assert checkout("KK") == 150
+    assert checkout("KKK") == 230
+
+    assert checkout("NNNM") == 120
+    assert checkout("NNM") == 95
+
+    assert checkout("PPPPP") == 200
+    assert checkout("PPPP") == 200
+
+    assert checkout("QQQ") == 80
+    assert checkout("QQ") == 60
+
+    assert checkout("RRRQ") == 150
+    assert checkout("RRQ") == 130
+
+    assert checkout("UUUU") == 120
+    assert checkout("UUU") == 120
+
+    assert checkout("VV") == 90
+    assert checkout("VVV") == 130
+    assert checkout("VVVV") == 180
+    assert checkout("VVVVV") == 220
+    assert checkout("VVVVVV") == 260
 
     print("Tests Passed")
 
