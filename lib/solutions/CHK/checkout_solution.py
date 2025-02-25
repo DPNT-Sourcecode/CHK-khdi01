@@ -5,8 +5,8 @@
 def checkout(skus):
     from collections import defaultdict
 
-    prices = {"A": 50, "B":30, "C":20, "D":15}
-    offers = {"A": (3, 130), "B": (2,45)}
+    prices = {"A": 50, "B":30, "C":20, "D":15, "E":40}
+    offers = {"A": [(3, 130), (5,200)], "B": [(2,45)], "E": [(2, "B")]}
 
     if skus == "":
         return 0
@@ -26,13 +26,49 @@ def checkout(skus):
         else:
             return -1
     
+
+
+    for item in cart_dict.keys():
+        if (item in offers) and True in [isinstance(offer[1], str) for offer in offers.get(item, [])]:
+            for quantity, free_item in [(q,f) for q,f in offers[item] if isinstance(f, str)]:
+                if free_item in cart_dict and cart_dict[item] >= quantity:
+                    num_free = cart_dict[item] // quanitity
+                    cart_dict[free_item] = max(0, cart_dict[free_item] - num_free)
+
+    
     total = 0
 
+
+
+    #for item, n in cart_dict.items():
+    #    if item in offers.keys():
+    #        total += ((n // offers[item][0] * offers[item][1])) + ((n % offers[item][0]) * prices[item])
+    #    else:
+    #        total += (n * prices[item])
+
     for item, n in cart_dict.items():
-        if item in offers.keys():
-            total += ((n // offers[item][0] * offers[item][1])) + ((n % offers[item][0]) * prices[item])
+        item_total = 0
+
+        if item in offers and True in (isinstance(offer[1], int) for offer in offers.get(item, [])):
+            valid_offers = [(q,p) for q,p in offers[item] if isinstance(p, int)]
+
+            valid_offers.sort(key=lambda x: x[0], reverse = True)
+
+            remaining = n
+
+            for quantity, price in valid_offers:
+                if remaining >= quantity:
+                    num_offers = remaining // quantity
+                    item_total += num_offers * price
+                    remaining -= num_offers * quantity
+
+            if remaining > 0:
+                item_total += remaining * prices[item]
+
         else:
-            total += (n * prices[item])
+            item_total = n * prices[item]
+        
+        total += item_total
 
     return total
 
@@ -48,5 +84,13 @@ def test():
     assert checkout("A1BB1CC1D1") == -1
     assert checkout("A1B1C1D") == -1
     assert checkout("ABCa") == -1
+
+
+    assert checkout("E") == 40
+    assert checkout("EEB") == 80
+    assert checkout("AAABBBEE") == 255
+    assert checkout("AAAAAAAAA") ==  380
+
+    print("Tests Passed")
 
 test()
