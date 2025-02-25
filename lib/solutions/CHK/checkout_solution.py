@@ -13,11 +13,11 @@ def checkout(skus):
     if not skus.isalpha():
         return -1
 
-    if len(skus) == 1:
-        if skus in prices.keys():
-            return prices[skus]
-        else:
-            return -1
+    #if len(skus) == 1:
+    #    if skus in prices.keys():
+    #        return prices[skus]
+    #    else:
+    #        return -1
 
     cart_dict = defaultdict(int)
     for i in skus:
@@ -49,4 +49,4 @@ def test():
     assert checkout("A1B1C1D") == -1
     assert checkout("ABCa") == -1
 
-#test()
+test()
