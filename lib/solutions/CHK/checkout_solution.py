@@ -32,7 +32,7 @@ def checkout(skus):
         if (item in offers) and True in [isinstance(offer[1], str) for offer in offers.get(item, [])]:
             for quantity, free_item in [(q,f) for q,f in offers[item] if isinstance(f, str)]:
                 if free_item in cart_dict and cart_dict[item] >= quantity:
-                    num_free = cart_dict[item] // quanitity
+                    num_free = cart_dict[item] // quantity
                     cart_dict[free_item] = max(0, cart_dict[free_item] - num_free)
 
     
