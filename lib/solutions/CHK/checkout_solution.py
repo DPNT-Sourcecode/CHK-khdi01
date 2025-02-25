@@ -5,19 +5,13 @@
 def checkout(skus):
     from collections import defaultdict
 
-    prices = {"A": 50, "B":30, "C":20, "D":15, "E":40}
-    offers = {"A": [(3, 130), (5,200)], "B": [(2,45)], "E": [(2, "B")]}
+    prices = {"A": 50, "B":30, "C":20, "D":15, "E":40, "F":10}
+    offers = {"A": [(3, 130), (5,200)], "B": [(2,45)], "E": [(2, "B")], "F": [(3, "F")]}
 
     if skus == "":
         return 0
     if not skus.isalpha():
         return -1
-
-    #if len(skus) == 1:
-    #    if skus in prices.keys():
-    #        return prices[skus]
-    #    else:
-    #        return -1
 
     cart_dict = defaultdict(int)
     for i in skus:
@@ -90,6 +84,10 @@ def test():
     assert checkout("EEB") == 80
     assert checkout("AAABBBEE") == 255
     assert checkout("AAAAAAAAA") ==  380
+
+    assert checkout("FFF") == 20
+    assert checkout("FFFFF") == 40
+    assert checkout("EEBFFFFFF") == 120
 
     print("Tests Passed")
 
