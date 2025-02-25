@@ -19,7 +19,7 @@ def checkout(skus):
 
         
     offers = {"A": [(3, 130), (5,200)], "B": [(2,45)], "E": [(2, "B")], "F": [(3, "F")],
-            "H": [(5, 45), (10, 80)], "K": [(2, 150)], "N": [(3, "M")], "P":[(5, 200)],
+            "H": [(5, 45), (10, 80)], "K": [(2, 120)], "N": [(3, "M")], "P":[(5, 200)],
             "Q":[(3,80)], "R": [(3, "Q")], "U":[(4, "U")], "V":[(2,90),(3,130)]}
 
     group_discount_items = ["S", "T", "X", "Y", "Z"]
@@ -73,7 +73,7 @@ def checkout(skus):
         remaining = group_item_list[num_groups * group_quantity:]
 
         for item in group_items.keys():
-            remaining_count = group_items[item] - remaining.count(item)
+            remaining_count = group_items[item][0] - remaining.count(item)
             total += remaining_count * prices[item]
 
 
