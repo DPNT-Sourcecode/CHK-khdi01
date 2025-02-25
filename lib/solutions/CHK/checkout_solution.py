@@ -73,7 +73,7 @@ def checkout(skus):
         remaining = group_item_list[num_groups * group_quantity:]
 
         for item in group_items.keys():
-            remaining_count = group_items[item][0] - remaining.count(item)
+            remaining_count = remaining.count(item)
             total += remaining_count * prices[item]
 
 
@@ -166,4 +166,4 @@ def test():
 
     print("Tests Passed")
 
-#test()
+test()
